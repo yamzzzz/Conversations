@@ -1735,6 +1735,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
     @Override
     public void onResume() {
         super.onResume();
+        activity.tabLayout.setVisibility(View.GONE);
         binding.messagesView.post(this::fireReadEvent);
     }
 

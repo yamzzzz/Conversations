@@ -79,7 +79,7 @@ public class ConversationsOverviewFragment extends XmppFragment {
 	private final PendingItem<ScrollState> pendingScrollState = new PendingItem<>();
 	private FragmentConversationsOverviewBinding binding;
 	private ConversationAdapter conversationsAdapter;
-	private XmppActivity activity;
+	private ConversationsActivity activity;
 	private float mSwipeEscapeVelocity = 0f;
 	private PendingActionHelper pendingActionHelper = new PendingActionHelper();
 
@@ -236,8 +236,8 @@ public class ConversationsOverviewFragment extends XmppFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if (activity instanceof XmppActivity) {
-			this.activity = (XmppActivity) activity;
+		if (activity instanceof ConversationsActivity) {
+			this.activity = (ConversationsActivity) activity;
 		} else {
 			throw new IllegalStateException("Trying to attach fragment to activity that is not an XmppActivity");
 		}
@@ -260,6 +260,7 @@ public class ConversationsOverviewFragment extends XmppFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
 	}
 
 	@Override
@@ -328,6 +329,7 @@ public class ConversationsOverviewFragment extends XmppFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		activity.tabLayout.setVisibility(View.VISIBLE);
 		Log.d(Config.LOGTAG, "ConversationsOverviewFragment.onResume()");
 	}
 

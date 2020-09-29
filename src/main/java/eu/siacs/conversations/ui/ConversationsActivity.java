@@ -45,6 +45,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +53,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import org.openintents.openpgp.util.OpenPgpApi;
@@ -116,6 +118,7 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
     private ActivityConversationsBinding binding;
     private boolean mActivityPaused = true;
     private AtomicBoolean mRedirectInProcess = new AtomicBoolean(false);
+    public TabLayout tabLayout;
 
     private static boolean isViewOrShareIntent(Intent i) {
         Log.d(Config.LOGTAG, "action: " + (i == null ? null : i.getAction()));
@@ -361,9 +364,12 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_conversations);
         setSupportActionBar((Toolbar) binding.toolbar);
         configureActionBar(getSupportActionBar());
+
+        tabLayout = binding.tabLayout;
+
         this.getFragmentManager().addOnBackStackChangedListener(this::invalidateActionBarTitle);
         this.getFragmentManager().addOnBackStackChangedListener(this::showDialogsIfMainIsOverview);
-        this.initializeFragments();
+        this.initializeFragments(0);
         this.invalidateActionBarTitle();
         final Intent intent;
         if (savedInstanceState == null) {
@@ -375,6 +381,23 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
             pendingViewIntent.push(intent);
             setIntent(createLauncherIntent(this));
         }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                initializeFragments(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -558,44 +581,56 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
     public void onResume() {
         super.onResume();
         this.mActivityPaused = false;
+        tabLayout.setVisibility(View.VISIBLE);
     }
 
-    private void initializeFragments() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        Fragment mainFragment = getFragmentManager().findFragmentById(R.id.main_fragment);
-        Fragment secondaryFragment = getFragmentManager().findFragmentById(R.id.secondary_fragment);
-        if (mainFragment != null) {
-            if (binding.secondaryFragment != null) {
-                if (mainFragment instanceof ConversationFragment) {
-                    getFragmentManager().popBackStack();
-                    transaction.remove(mainFragment);
-                    transaction.commit();
-                    getFragmentManager().executePendingTransactions();
-                    transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.secondary_fragment, mainFragment);
+    private void initializeFragments(int tabPosition) {
+        Log.v("tabPosition", "tabPosition=="+tabPosition);
+        if(tabPosition == 0) {
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            Fragment mainFragment = getFragmentManager().findFragmentById(R.id.main_fragment);
+            Fragment secondaryFragment = getFragmentManager().findFragmentById(R.id.secondary_fragment);
+            Log.v("mainFragment", "mainFragment=="+mainFragment+" secondFragment="+secondaryFragment);
+
+            if (mainFragment != null) {
+                if (binding.secondaryFragment != null) {
+                    if (mainFragment instanceof ConversationFragment) {
+                        getFragmentManager().popBackStack();
+                        transaction.remove(mainFragment);
+                        transaction.commit();
+                        getFragmentManager().executePendingTransactions();
+                        transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.secondary_fragment, mainFragment);
+                        transaction.replace(R.id.main_fragment, new ConversationsOverviewFragment());
+                        transaction.commit();
+                        return;
+                    }
+                } else {
                     transaction.replace(R.id.main_fragment, new ConversationsOverviewFragment());
-                    transaction.commit();
-                    return;
+                    if (secondaryFragment instanceof ConversationFragment) {
+                        transaction.remove(secondaryFragment);
+                        transaction.commit();
+                        getFragmentManager().executePendingTransactions();
+                        transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.main_fragment, secondaryFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        return;
+                    }
                 }
             } else {
-                if (secondaryFragment instanceof ConversationFragment) {
-                    transaction.remove(secondaryFragment);
-                    transaction.commit();
-                    getFragmentManager().executePendingTransactions();
-                    transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.main_fragment, secondaryFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                    return;
-                }
+                transaction.replace(R.id.main_fragment, new ConversationsOverviewFragment());
             }
-        } else {
-            transaction.replace(R.id.main_fragment, new ConversationsOverviewFragment());
+            if (binding.secondaryFragment != null && secondaryFragment == null) {
+                transaction.replace(R.id.secondary_fragment, new ConversationFragment());
+            }
+            transaction.commit();
+
+        }else{
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.main_fragment, new WeatherFragment());
+            transaction.commit();
         }
-        if (binding.secondaryFragment != null && secondaryFragment == null) {
-            transaction.replace(R.id.secondary_fragment, new ConversationFragment());
-        }
-        transaction.commit();
     }
 
     private void invalidateActionBarTitle() {

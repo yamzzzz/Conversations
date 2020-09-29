@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -18,6 +20,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +38,7 @@ import android.widget.Toast;
 import com.google.common.base.Strings;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -49,12 +53,14 @@ import eu.siacs.conversations.entities.Conversational;
 import eu.siacs.conversations.entities.DownloadableFile;
 import eu.siacs.conversations.entities.Message;
 import eu.siacs.conversations.entities.Message.FileParams;
+import eu.siacs.conversations.entities.MucOptions;
 import eu.siacs.conversations.entities.RtpSessionStatus;
 import eu.siacs.conversations.entities.Transferable;
 import eu.siacs.conversations.http.P1S3UrlStreamHandler;
 import eu.siacs.conversations.persistance.FileBackend;
 import eu.siacs.conversations.services.MessageArchiveService;
 import eu.siacs.conversations.services.NotificationService;
+import eu.siacs.conversations.ui.ConferenceDetailsActivity;
 import eu.siacs.conversations.ui.ConversationFragment;
 import eu.siacs.conversations.ui.ConversationsActivity;
 import eu.siacs.conversations.ui.XmppActivity;
@@ -851,7 +857,37 @@ public class MessageAdapter extends ArrayAdapter<Message> implements CopyTextVie
                 if (!mUseGreenBackground) {
                     bubble = activity.getThemeResource(R.attr.message_bubble_received_monochrome, R.drawable.message_bubble_received_white);
                 } else {
-                    bubble = activity.getThemeResource(R.attr.message_bubble_received_green, R.drawable.message_bubble_received);
+
+                    if(conversation.getMode() == Conversational.MODE_SINGLE) {
+                        bubble = activity.getThemeResource(R.attr.message_bubble_received_green, R.drawable.message_bubble_received);
+                    }else{
+                        bubble = activity.getThemeResource(R.attr.message_bubble_received_green, R.drawable.message_bubble_received);
+
+                        if (message.getConversation() instanceof Conversation) {
+                            final Conversation convo = (Conversation) message.getConversation();
+                            Jid cp = message.getCounterpart();
+                            String userName = cp.getResource();
+                            MucOptions.Affiliation userAffiliation = MucOptions.Affiliation.NONE;
+                            for (MucOptions.User user : convo.getMucOptions().getUsers()) {
+                                String name = user.getName();
+                                if(name != null && name.equalsIgnoreCase(userName)){
+                                    userAffiliation = user.getAffiliation();
+                                    break;
+                                }
+                            }
+
+                            if(userAffiliation.ranks(MucOptions.Affiliation.OWNER)){
+                                ColorStateList tint = ColorStateList.valueOf(ContextCompat.getColor(getContext(), android.R.color.holo_orange_light));
+                                ViewCompat.setBackgroundTintList(viewHolder.message_box, tint);
+                            }else if(userAffiliation.ranks(MucOptions.Affiliation.ADMIN)){
+                                ColorStateList tint = ColorStateList.valueOf(ContextCompat.getColor(getContext(), android.R.color.holo_purple));
+                                ViewCompat.setBackgroundTintList(viewHolder.message_box, tint);
+                            }else{
+                                ColorStateList tint = ColorStateList.valueOf(ContextCompat.getColor(getContext(), android.R.color.holo_blue_dark));
+                                ViewCompat.setBackgroundTintList(viewHolder.message_box, tint);
+                            }
+                        }
+                    }
                 }
                 viewHolder.message_box.setBackgroundResource(bubble);
                 viewHolder.encryption.setVisibility(View.GONE);

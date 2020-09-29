@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/delhi_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/delhi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:text="Delhi"
+                        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+                    <ImageView
+                        android:id="@+id/delhi_dropdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="7dp"
+                        android:src="@drawable/dropdown_right" />
+
+                    <RelativeLayout
+                        android:id="@+id/delhi_expanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/delhi"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/delhi_current_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="26sp" />
+
+                        <TextView
+                            android:id="@+id/delhi_min_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/delhi_current_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/delhi_max_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/delhi_min_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/delhi_humidity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/delhi_max_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <ProgressBar
+                            android:id="@+id/delhi_progress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            style="@android:style/Widget.ProgressBar.Small"/>
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/mumbai_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/mumbai"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:text="Mumbai"
+                        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+                    <ImageView
+                        android:id="@+id/mumbai_dropdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="7dp"
+                        android:src="@drawable/dropdown_right" />
+
+                    <RelativeLayout
+                        android:id="@+id/mumbai_expanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mumbai"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/mumbai_current_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="26sp" />
+
+                        <TextView
+                            android:id="@+id/mumbai_min_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/mumbai_current_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/mumbai_max_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/mumbai_min_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/mumbai_humidity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/mumbai_max_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <ProgressBar
+                            android:id="@+id/mumbai_progress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@android:style/Widget.ProgressBar.Small"
+                            android:layout_centerInParent="true"/>
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/bangalore_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/bangalore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:text="Bangalore"
+                        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+                    <ImageView
+                        android:id="@+id/bangalore_dropdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="7dp"
+                        android:src="@drawable/dropdown_right" />
+
+                    <RelativeLayout
+                        android:id="@+id/bangalore_expanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bangalore"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/bangalore_current_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="26sp" />
+
+                        <TextView
+                            android:id="@+id/bangalore_min_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/bangalore_current_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/bangalore_max_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/bangalore_min_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/bangalore_humidity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/bangalore_max_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <ProgressBar
+                            android:id="@+id/bangalore_progress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            style="@android:style/Widget.ProgressBar.Small"/>
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/hyderabad_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/hyderabad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:text="Hyderabad"
+                        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+                    <ImageView
+                        android:id="@+id/hyderabad_dropdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="7dp"
+                        android:src="@drawable/dropdown_right" />
+
+                    <RelativeLayout
+                        android:id="@+id/hyderabad_expanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/hyderabad"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/hyderabad_current_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="26sp" />
+
+                        <TextView
+                            android:id="@+id/hyderabad_min_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/hyderabad_current_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/hyderabad_max_temp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/hyderabad_min_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+                        <TextView
+                            android:id="@+id/hyderabad_humidity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/hyderabad_max_temp"
+                            android:padding="5dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+
+
+                        <ProgressBar
+                            android:id="@+id/hyderabad_progress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            style="@android:style/Widget.ProgressBar.Small"/>
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+</layout>
