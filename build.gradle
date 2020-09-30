@@ -35,6 +35,8 @@ ext {
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:2.0.1'
+
     //should remain that low because later versions introduce dependency to androidx (not sure exactly from what version)
     playstoreImplementation('com.google.firebase:firebase-messaging:17.3.4') {
         exclude group: 'com.google.firebase', module: 'firebase-core'
